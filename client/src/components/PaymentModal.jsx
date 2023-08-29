@@ -37,16 +37,16 @@ console.log(product)
     }
 
       try {
-        const response=await fetch("",{
-        body:JSON.stringify({name:product.name,product:product.price}),
+        const response=await fetch("http://localhost:5001/api/product/order",{
+        body:JSON.stringify({name:product.name,price:product.price}),
         headers:{
           "Authorization":`Bearer ${access_token}`
         }
       })
       const result = await response.json()
       if (result.status) {
-        
         setProgress(false)
+        alert(`Your Order has been placed successfully`)
         return
       }
          setProgress(false)
