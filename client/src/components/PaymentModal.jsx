@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { TailSpin } from  'react-loader-spinner'
-const PaymentModal = ({loginState,setLoginState}) => {
+const PaymentModal = ({loginState,setLoginState,product}) => {
   
   const [progress,setProgress]=useState(false)
    const [name,setName]=useState()
@@ -10,11 +10,22 @@ const PaymentModal = ({loginState,setLoginState}) => {
 
    
 
-  const _handleOrderItem=async(product)=>{
+  const _handleOrderItem=async()=>{
     const access_token = localStorage.getItem('access_token')
+
+ const data = {
+      name,number,cvv
+    }
+
+    console.log(access_token)
+    if (!name||!number||!cvv) {
+      alert("All field are required")
+      return
+    }
 
     if (!access_token) {
       alert("Login to place an order")
+      // setLoginState(!loginState);
       return
     }
 
@@ -46,7 +57,7 @@ const PaymentModal = ({loginState,setLoginState}) => {
      <Input onChange={_handleChange(setNumber)} label="Card Number" type="number" name="card_number" imgSrc="https://seeklogo.com/images/V/visa-logo-6F4057663D-seeklogo.com.png" />
       <div className="row">
         <div className="col">
-          <Input onChange={_handleChange(setDate)} label="Expiration Date" type="month" name="exp_date" />
+          {/* <Input onChange={_handleChange(setDate)} label="Expiration Date" type="month" name="exp_date" /> */}
         </div>
         <div className="col">
           <Input onChange={_handleChange(setCvv)} label="CVV" maxlength={4} type="number" name="cvv" />

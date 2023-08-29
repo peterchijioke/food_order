@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 export default function Navbar({setLoginState,setRegisterState}) {
   const [navbarState, setNavbarState] = useState(false);
-  const _user = localStorage.getItem('user')
+  const _user = JSON.parse(localStorage.getItem('user'))
   const [user,setUser]=useState()
   const html = document.querySelector("html");
   html.addEventListener("click", () => setNavbarState(false));
@@ -62,6 +62,7 @@ if (_user) {
           </li>}
           {user&&<li onClick={()=>{
             localStorage.removeItem("user")
+            localStorage.removeItem('access_token')
             setUser(undefined)
           }}>
             <a href="#">Logout</a>

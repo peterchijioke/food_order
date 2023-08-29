@@ -34,7 +34,7 @@ const LoginModal = ({loginState,setLoginState}) => {
     const result = await response.json()
     if (result.status) {
       localStorage.setItem('access_token',result.access_token);
-      localStorage.setItem('user',result.user);
+      localStorage.setItem('user',JSON.stringify(result.user));
        setProgress(false)
        setLoginState(false)
     }

@@ -49,9 +49,10 @@ export default function Products({setPaymentModal,_handleOrderItem}) {
               <h3>{product.price}</h3>
               <p>He Printing and Typesetting the industry. Lorem Ipsum has</p>
               <button onClick={(e)=>{
+                _handleOrderItem(product)
+
                 e.preventDefault()
                 setPaymentModal(true)
-                _handleOrderItem(product)
               }}>Order Now</button>
             </div>
           );
