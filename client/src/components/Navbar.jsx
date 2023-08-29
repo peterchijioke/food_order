@@ -2,18 +2,27 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
-export default function Navbar({setLoginState,setRegisterState}) {
+import { Fragment } from "react/cjs/react.production.min";
+export default function Navbar({setLoginState,setRegisterState,user_}) {
   const [navbarState, setNavbarState] = useState(false);
-  const _user = JSON.parse(localStorage.getItem('user'))
-  const [user,setUser]=useState()
+   
+
+  
+  const [user,setUser]=useState(user_)
   const html = document.querySelector("html");
   html.addEventListener("click", () => setNavbarState(false));
-
-  useEffect(()=>{
-if (_user) {
-  setUser(_user)
+const _storeUser=async()=>{
+  try {
+  setUser(user_)
+  } catch (e) {
+    console.log(e.message)
+  }
 }
-  },[_user])
+
+useEffect(()=>{
+  _storeUser();
+},[user_])
+//  const user = JSON.parse(localStorage.getItem('user'))
   return (
     <>
       <Nav>
@@ -34,7 +43,8 @@ if (_user) {
           </div>
         </div>
         <ul className="links">
-          <li>
+          {!user&&<Fragment>
+              <li>
             <a href="#home" className="active">
               Home
             </a>
@@ -48,12 +58,19 @@ if (_user) {
           <li>
             <a href="#testimonials">Testimonials</a>
           </li>
-          <li>
-            <a href="#products">Products</a>
-          </li>
+         
           <li>
             <a href="#newsletter">Newsletter</a>
           </li>
+          </Fragment>}
+          {user&&<Fragment>
+                <li>
+            <a href="#products">Products</a>
+          </li>
+          <li>
+            <a > Hi, {user?.name}</a>
+          </li>
+          </Fragment>}
           {!user &&<li onClick={()=>setRegisterState(true)}>
             <a href="#">sign up</a>
           </li>}

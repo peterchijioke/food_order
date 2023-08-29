@@ -4,6 +4,7 @@ const cors = require("cors");
 const errorHandle = require("./middlwares/error.middleware");
 
 const authRoute = require("./routes/auth.route");
+const productRoute = require("./routes/product.route");
 const database = require("./config/db");
 const app = express();
 app.use(cors());
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Route
 app.use("/api/", authRoute);
+app.use("/api/", productRoute);
 const port = 5001;
 app.use(errorHandle.errorHandler);
 app.listen(port, () => {

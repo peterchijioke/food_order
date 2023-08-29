@@ -41,10 +41,12 @@ export default function App() {
   const [paymentModal, setPaymentModal] = useState(false);
   const [registerState, setRegisterState] = useState(false);
   const [product, setProduct] = useState();
+  const user_ = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <ScrollToTop />
       <Navbar
+        user_={user_}
         setRegisterState={setRegisterState}
         setLoginState={setLoginState}
       />

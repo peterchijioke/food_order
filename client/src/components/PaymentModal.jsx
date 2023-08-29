@@ -1,5 +1,7 @@
 import React,{useState} from 'react'
 import { TailSpin } from  'react-loader-spinner'
+    const access_token = localStorage.getItem('access_token')
+
 const PaymentModal = ({loginState,setLoginState,product}) => {
   
   const [progress,setProgress]=useState(false)
@@ -11,7 +13,8 @@ const PaymentModal = ({loginState,setLoginState,product}) => {
    
 
   const _handleOrderItem=async()=>{
-    const access_token = localStorage.getItem('access_token')
+setProgress(true)
+console.log(product)
 
  const data = {
       name,number,cvv
@@ -19,13 +22,17 @@ const PaymentModal = ({loginState,setLoginState,product}) => {
 
     console.log(access_token)
     if (!name||!number||!cvv) {
+      setProgress(false)
+
       alert("All field are required")
       return
     }
 
     if (!access_token) {
+      setProgress(false)
+
       alert("Login to place an order")
-      // setLoginState(!loginState);
+      setLoginState(false);
       return
     }
 
@@ -37,7 +44,12 @@ const PaymentModal = ({loginState,setLoginState,product}) => {
         }
       })
       const result = await response.json()
-      console.log(product)
+      if (result.status) {
+        
+        setProgress(false)
+        return
+      }
+         setProgress(false)
       } catch (e) {
         console.log(e.message)
       }
@@ -63,7 +75,18 @@ const PaymentModal = ({loginState,setLoginState,product}) => {
           <Input onChange={_handleChange(setCvv)} label="CVV" maxlength={4} type="number" name="cvv" />
         </div>
       </div>
-      <Button onClick={_handleOrderItem} text="Place order" />
+     {!progress&& <Button onClick={_handleOrderItem} text="Place order" />}
+     {progress && <div style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',marginTop:'1rem'}}>
+      <TailSpin
+  height="50"
+  width="50"
+  color="#e64942"
+  ariaLabel="tail-spin-loading"
+  radius="1"
+  wrapperStyle={{}}
+  wrapperClass=""
+  visible={true}
+/></div>}
     </form>
     </div>
   </div>
