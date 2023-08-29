@@ -33,7 +33,7 @@ const PaymentModal = ({loginState,setLoginState}) => {
   }
 
   const _handleChange=(setState)=>(e)=>{
-    setState(e.tartget.value)
+    setState(e.target.value)
   }
   return (
 <div  id="myModal" className={loginState?"modal open-modal":"modal"}>
