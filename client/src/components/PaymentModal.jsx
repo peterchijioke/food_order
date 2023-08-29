@@ -23,14 +23,25 @@ console.log(product)
     console.log(access_token)
     if (!name||!number||!cvv) {
       setProgress(false)
-
       alert("All field are required")
       return
     }
 
+    if (number.length>16 || number.length<16) {
+      alert('Card number must be 16 digits')
+      setProgress(false)
+      return
+      
+    }
+     if (cvv.length>4 || cvv.length<4) {
+      alert('cvv must be 4 digits')
+      setProgress(false)
+      return
+      
+    }
+
     if (!access_token) {
       setProgress(false)
-
       alert("Login to place an order")
       setLoginState(false);
       return
