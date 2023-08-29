@@ -5,28 +5,9 @@ import product2 from "../assets/product2.jpg";
 import product3 from "../assets/product3.jpg";
 import product4 from "../assets/product4.jpg";
 import { imageZoomEffect, TitleStyles } from "./ReusableStyles";
-export default function Products() {
+export default function Products({setPaymentModal,_handleOrderItem}) {
 
-  const _handleOrderItem=async(product)=>{
-    const access_token = localStorage.getItem('access_token')
 
-    if (!access_token) {
-      alert("Login to place an order")
-      return
-    }
-      try {
-        const response=await fetch("",{
-        body:JSON.stringify({name:product.name,product:product.price}),
-        headers:{
-          "Authorization":`Bearer ${access_token}`
-        }
-      })
-      const result = await response.json()
-      console.log(product)
-      } catch (e) {
-        console.log(e.message)
-      }
-  }
   const data = [
     {
       image: product1,
@@ -68,8 +49,10 @@ export default function Products() {
               <h3>{product.price}</h3>
               <p>He Printing and Typesetting the industry. Lorem Ipsum has</p>
               <button onClick={(e)=>{
-                e.preventDefault()
                 _handleOrderItem(product)
+
+                e.preventDefault()
+                setPaymentModal(true)
               }}>Order Now</button>
             </div>
           );

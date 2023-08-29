@@ -11,6 +11,7 @@ import Testimonials from "./components/Testimonials";
 import scrollreveal from "scrollreveal";
 import LoginModal from "./components/LoginModal";
 import RegisterModal from "./components/RegisterModal";
+import PaymentModal from "./components/PaymentModal";
 export default function App() {
   useEffect(() => {
     const sr = scrollreveal({
@@ -37,11 +38,15 @@ export default function App() {
     );
   }, []);
   const [loginState, setLoginState] = useState(false);
+  const [paymentModal, setPaymentModal] = useState(false);
   const [registerState, setRegisterState] = useState(false);
+  const [product, setProduct] = useState();
+  const user_ = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <ScrollToTop />
       <Navbar
+        user_={user_}
         setRegisterState={setRegisterState}
         setLoginState={setLoginState}
       />
@@ -49,7 +54,10 @@ export default function App() {
       <Services />
       <Portfolio />
       <Testimonials />
-      <Products />
+      <Products
+        _handleOrderItem={(product) => setProduct(product)}
+        setPaymentModal={setPaymentModal}
+      />
       <Newsletter />
       <Footer />
       <RegisterModal
@@ -58,6 +66,11 @@ export default function App() {
         loginState={registerState}
       />
       <LoginModal setLoginState={setLoginState} loginState={loginState} />
+      <PaymentModal
+        product={product}
+        setLoginState={setPaymentModal}
+        loginState={paymentModal}
+      />
     </>
   );
 }
