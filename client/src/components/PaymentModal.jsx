@@ -33,13 +33,13 @@ console.log(product)
       return
       
     }
-     if (cvv.length>4 || cvv.length<4) {
-      alert('cvv must be 4 digits')
+     if (cvv.length>3|| cvv.length<3) {
+      alert('cvv must be 3 digits')
       setProgress(false)
       return
       
     }
-
+console.log(access_token)
     if (!access_token) {
       setProgress(false)
       alert("Login to place an order")
@@ -49,7 +49,9 @@ console.log(product)
       try {
         const response=await fetch("http://localhost:5001/api/product/order",{
         body:JSON.stringify({name:product.name,price:product.price}),
+        method:"POST",
         headers:{
+          'Content-Type':'application/json',
           "Authorization":`Bearer ${access_token}`
         }
       })
@@ -58,6 +60,7 @@ console.log(product)
       console.log(result)
       if (result.status) {
         setProgress(false)
+        setLoginState(false)
         alert(`Your Order has been placed successfully`)
         return
       }

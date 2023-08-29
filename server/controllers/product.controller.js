@@ -24,6 +24,8 @@ const orderProduct = expressAsyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
+
+  console.log("========================", { name, price });
   res.status(200).json({
     name,
     price,
