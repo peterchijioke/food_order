@@ -53,7 +53,9 @@ console.log(product)
           "Authorization":`Bearer ${access_token}`
         }
       })
+
       const result = await response.json()
+      console.log(result)
       if (result.status) {
         setProgress(false)
         alert(`Your Order has been placed successfully`)
