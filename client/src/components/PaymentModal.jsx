@@ -35,7 +35,6 @@ console.log(product)
       setLoginState(false);
       return
     }
-
       try {
         const response=await fetch("http://localhost:5001/api/product/order",{
         body:JSON.stringify({name:product.name,price:product.price}),
