@@ -1,15 +1,29 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { TailSpin } from  'react-loader-spinner'
-    const access_token = localStorage.getItem('access_token')
+import CheckoutProductDisplay from './CheckoutProductDisplay'
+
+
+const access_token = localStorage.getItem('access_token')
 
 const PaymentModal = ({loginState,setLoginState,product}) => {
   
   const [progress,setProgress]=useState(false)
    const [name,setName]=useState()
+   const [checkout,setCheckout]=useState(false)
     const [number,setNumber]=useState()
      const [date,setDate]=useState()
      const [cvv,setCvv]=useState()
 
+  useEffect(()=>{
+     return ()=>{
+       setName()
+      setCheckout(false)
+      setDate()
+      setCvv()
+      setProgress(false)
+      setNumber()
+     }
+  },[])
    
 
   const _handleOrderItem=async()=>{
@@ -73,41 +87,58 @@ console.log(access_token)
   const _handleChange=(setState)=>(e)=>{
     setState(e.target.value)
   }
+
+  
   return (
 <div  id="myModal" className={loginState?"modal open-modal":"modal"}>
-  <div onClick={()=>setLoginState(false)} className='close'>X</div>
+  <div onClick={()=>{setLoginState(false)
+   setName()
+      setCheckout(false)
+      setDate()
+      setCvv()
+      setProgress(false)
+      setNumber()}
+  } className='close'>X</div>
   <div className="modal-content">
- <div className="checkout-container">
-     <h3 className="heading-3">Credit card checkout</h3>
-    <form  style={{width:'100%'}}>
-       <Input onChange={_handleChange(setName)} label="Cardholder's Name" type="text" name="name" />
-     <Input onChange={_handleChange(setNumber)} label="Card Number" type="number" name="card_number" imgSrc="https://seeklogo.com/images/V/visa-logo-6F4057663D-seeklogo.com.png" />
-      <div className="row">
-        <div className="col">
-          {/* <Input onChange={_handleChange(setDate)} label="Expiration Date" type="month" name="exp_date" /> */}
-        </div>
-        <div className="col">
-          <Input onChange={_handleChange(setCvv)} label="CVV" maxlength={4} type="number" name="cvv" />
-        </div>
-      </div>
-     {!progress&& <Button onClick={_handleOrderItem} text="Place order" />}
-     {progress && <div style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',marginTop:'1rem'}}>
-      <TailSpin
-  height="50"
-  width="50"
-  color="#e64942"
-  ariaLabel="tail-spin-loading"
-  radius="1"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
-/></div>}
-    </form>
-    </div>
+ {checkout&&checkoutForm(setCheckout)}
+{!checkout&& <CheckoutProductDisplay setCheckout={setCheckout} product={product}/>}
+
   </div>
   </div>
 
   )
+
+  function checkoutForm(setCheckout) {
+    return <div className="checkout-container">
+      <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+        <h3 className="heading-3">Credit card checkout</h3>
+        <input onClick={()=>setCheckout(false)} type='button' style={{height:30,padding:5,background:'#e64942' ,color:'#fff',borderRadius:5}} value={'Back to Product Preview'}/>
+      </div>
+      <form style={{ width: '100%' }}>
+        <Input onChange={_handleChange(setName)} label="Cardholder's Name" type="text" name="name" />
+        <Input onChange={_handleChange(setNumber)} label="Card Number" type="number" name="card_number" imgSrc="https://seeklogo.com/images/V/visa-logo-6F4057663D-seeklogo.com.png" />
+        <div className="row">
+          <div className="col">
+            {/* <Input onChange={_handleChange(setDate)} label="Expiration Date" type="month" name="exp_date" /> */}
+          </div>
+          <div className="col">
+            <Input onChange={_handleChange(setCvv)} label="CVV" maxlength={4} type="number" name="cvv" />
+          </div>
+        </div>
+        {!progress && <Button onClick={_handleOrderItem} text="Pay" />}
+        {progress && <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1rem' }}>
+          <TailSpin
+            height="50"
+            width="50"
+            color="#e64942"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true} /></div>}
+      </form>
+    </div>
+  }
 }
 
 const Input = (props) => (
