@@ -3,9 +3,9 @@ import { TailSpin } from  'react-loader-spinner'
 import CheckoutProductDisplay from './CheckoutProductDisplay'
 
 
-const access_token = localStorage.getItem('access_token')
 
-const PaymentModal = ({loginState,setLoginState,product}) => {
+
+const PaymentModal = ({loginState,setLoginState,product,access_token}) => {
   
   const [progress,setProgress]=useState(false)
    const [name,setName]=useState()
@@ -53,7 +53,7 @@ console.log(product)
       return
       
     }
-console.log(access_token)
+console.log("==========TOKEN==============",access_token)
     if (!access_token) {
       setProgress(false)
       alert("Login to place an order")

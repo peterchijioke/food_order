@@ -12,6 +12,7 @@ import scrollreveal from "scrollreveal";
 import LoginModal from "./components/LoginModal";
 import RegisterModal from "./components/RegisterModal";
 import PaymentModal from "./components/PaymentModal";
+const access_token = localStorage.getItem("access_token");
 export default function App() {
   useEffect(() => {
     const sr = scrollreveal({
@@ -67,6 +68,7 @@ export default function App() {
       />
       <LoginModal setLoginState={setLoginState} loginState={loginState} />
       <PaymentModal
+        access_token={access_token}
         product={product}
         setLoginState={setPaymentModal}
         loginState={paymentModal}
